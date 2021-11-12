@@ -1,8 +1,6 @@
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
-import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy
-import org.objenesis.strategy.StdInstantiatorStrategy
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
