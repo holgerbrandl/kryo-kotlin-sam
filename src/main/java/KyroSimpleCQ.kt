@@ -1,19 +1,22 @@
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
+import com.esotericsoftware.kryo.serializers.ClosureSerializer
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.Serializable
+import java.lang.invoke.SerializedLambda
 
 class SmthgGeneric<T> {
     val foo: (T, T) -> String = { o1, o2 -> "foo" }
 }
 
-interface SmthgAbstractGeneric<T> {
+interface SmthgAbstractGeneric<T>  {
     fun foo(): (T, T) -> String
 }
 
-fun interface SmthgSAMGeneric<T> {
+fun interface SmthgSAMGeneric<T> :Serializable  {
     fun foo(): (T, T) -> String
 }
 
@@ -24,6 +27,9 @@ fun main() {
     kryo.isRegistrationRequired = false
     //    kryo.instantiatorStrategy = DefaultInstantiatorStrategy(StdInstantiatorStrategy())
     //    kryo.setReferences(true)
+
+    kryo.register(SerializedLambda::class.java)
+    kryo.register(ClosureSerializer.Closure::class.java, ClosureSerializer())
 
     // start experimenting
     val smthg = SmthgGeneric<String>() // works
