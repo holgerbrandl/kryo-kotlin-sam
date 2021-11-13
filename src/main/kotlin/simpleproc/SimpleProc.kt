@@ -41,6 +41,16 @@ fun main() {
 
     // consume it again
     println(restored.iterator.next())
+
+    // this fails with
+//    Exception in thread "main" java.lang.NullPointerException
+//    at simpleproc.SimpleProcKt$main$sim$1.invokeSuspend(SimpleProc.kt:25)
+//    at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+//    at kotlin.sequences.SequenceBuilderIterator.hasNext(SequenceBuilder.kt:140)
+//    at kotlin.sequences.SequenceBuilderIterator.nextNotReady(SequenceBuilder.kt:163)
+//    at kotlin.sequences.SequenceBuilderIterator.next(SequenceBuilder.kt:146)
+//    at simpleproc.SimpleProcKt.main(SimpleProc.kt:43)
+//    at simpleproc.SimpleProcKt.main(SimpleProc.kt)
 }
 
 fun buildProcKryo(): Kryo {
