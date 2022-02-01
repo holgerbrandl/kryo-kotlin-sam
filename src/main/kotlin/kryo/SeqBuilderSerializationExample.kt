@@ -5,8 +5,11 @@ import com.esotericsoftware.kryo.io.Input
 import com.esotericsoftware.kryo.io.Output
 import com.esotericsoftware.kryo.serializers.ClosureSerializer
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy
+import com.esotericsoftware.kryo.util.MapReferenceResolver
+import nl.adaptivity.android.kryo.AndroidKotlinResolver
 import nl.adaptivity.android.kryo.KotlinObjectInstantiatorStrategy
-import nl.adaptivity.android.kryo.kryoAndroid
+import nl.adaptivity.android.kryo.serializers.SafeContinuationSerializer
+import nl.adaptivity.android.kryo.serializers._SafeContinuation
 import org.objenesis.strategy.StdInstantiatorStrategy
 import java.io.File
 import java.io.FileInputStream
@@ -46,7 +49,20 @@ fun main() {
 
 fun buildProcKryo(): Kryo {
 //    val kryo = Kryo()
-    val kryo = kryoAndroid
+    val kryo = Kryo(AndroidKotlinResolver(), MapReferenceResolver())
+
+
+
+    kryo.instantiatorStrategy = KotlinObjectInstantiatorStrategy(DefaultInstantiatorStrategy(StdInstantiatorStrategy()))
+
+    //TODO no longer needed, really?
+    kryo.register(_SafeContinuation, SafeContinuationSerializer(kryo))
+    /* TODO While this doesn't affect instantiation (The KotlinObjectStantiatorStrategy handles that)
+     * this may be needed to not serialize/deserialize the actual pool state.
+     */
+    // FIXME CommonPool seems not longer part of coroutine API
+//    val commonPoolClass = Class.forName("kotlinx.coroutines.CommonPool")
+//    register(commonPoolClass, ObjectSerializer(this,commonPoolClass))
 
     kryo.setOptimizedGenerics(false)
     kryo.references = true

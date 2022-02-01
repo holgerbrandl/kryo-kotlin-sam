@@ -1,4 +1,4 @@
-package simpleproc
+package experiments
 
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.Input
@@ -50,7 +50,7 @@ fun buildProcKryo(): Kryo {
     kryo.references = true
 
     kryo.instantiatorStrategy = DefaultInstantiatorStrategy(StdInstantiatorStrategy())
-    kryo.isRegistrationRequired = true
+    kryo.isRegistrationRequired = false
 
     kryo.register(SerializedLambda::class.java)
     kryo.register(ClosureSerializer.Closure::class.java, ClosureSerializer())
