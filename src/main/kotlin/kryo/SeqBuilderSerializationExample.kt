@@ -48,10 +48,7 @@ fun main() {
 }
 
 fun buildProcKryo(): Kryo {
-//    val kryo = Kryo()
     val kryo = Kryo(AndroidKotlinResolver(), MapReferenceResolver())
-
-
 
     kryo.instantiatorStrategy = KotlinObjectInstantiatorStrategy(DefaultInstantiatorStrategy(StdInstantiatorStrategy()))
 
@@ -66,8 +63,6 @@ fun buildProcKryo(): Kryo {
 
     kryo.setOptimizedGenerics(false)
     kryo.references = true
-
-    kryo.instantiatorStrategy = KotlinObjectInstantiatorStrategy(DefaultInstantiatorStrategy(StdInstantiatorStrategy()))
     kryo.isRegistrationRequired = false
 
     kryo.register(SerializedLambda::class.java)
